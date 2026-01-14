@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SimpleBlog - Home</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary-color: #4e73df;
+            --secondary-color: #6c757d;
+            --accent-color: #36b9cc;
+            --light-bg: #f8f9fa;
+            --dark-text: #343a40;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--dark-text);
+            line-height: 1.6;
+            padding-top: 76px; /* Account for fixed navbar */
+        }
+        
+        /* Navbar styling */
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+        
+        .nav-link {
+            font-weight: 500;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-color) !important;
+        }
+        
+        .active-page {
+            color: var(--primary-color) !important;
+            font-weight: 600;
+        }
+        
+        /* Hero section */
+        .hero-section {
+            background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), 
+                        url('https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 100px 0;
+            margin-bottom: 40px;
+            border-radius: 0 0 10px 10px;
+        }
+        
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+        
+        /* Blog posts */
+        .blog-post {
+            margin-bottom: 40px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+            background-color: white;
+        }
+        
+        .blog-post:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+        }
+        
+        .post-image {
+            height: 250px;
+            object-fit: cover;
+            width: 100%;
+        }
+        
+        .post-category {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .post-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--dark-text);
+            margin-bottom: 15px;
+        }
+        
+        .post-title a {
+            color: inherit;
+            text-decoration: none;
+        }
+        
+        .post-title a:hover {
+            color: var(--primary-color);
+        }
+        
+        .post-meta {
+            color: var(--secondary-color);
+            font-size: 0.9rem;
+            margin-bottom: 15px;
+        }
+        
+        .post-excerpt {
+            color: #555;
+            margin-bottom: 20px;
+        }
+        
+        .read-more {
+            color: var(--primary-color);
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+        }
+        
+        .read-more:hover {
+            color: #2e59d9;
+        }
+        
+        /* Sidebar */
+        .sidebar-card {
+            border-radius: 10px;
+            border: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            margin-bottom: 30px;
+            overflow: hidden;
+        }
+        
+        .sidebar-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark-text);
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+            margin-bottom: 20px;
+        }
+        
+        .about-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 5px solid var(--light-bg);
+        }
+        
+        .sidebar-list {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .sidebar-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .sidebar-list li:last-child {
+            border-bottom: none;
+        }
+        
+        .sidebar-list a {
+            color: var(--dark-text);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        
+        .sidebar-list a:hover {
+            color: var(--primary-color);
+            padding-left: 5px;
+        }
+        
+        .tag {
+            display: inline-block;
+            background-color: var(--light-bg);
+            color: var(--dark-text);
+            padding: 5px 12px;
+            border-radius: 20px;
+            margin: 5px 3px;
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        
+        .tag:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        /* Category page specific */
+        .category-header {
+            background: linear-gradient(to right, var(--primary-color), #2e59d9);
+            color: white;
+            padding: 60px 0;
+            margin-bottom: 40px;
+            border-radius: 0 0 10px 10px;
+        }
+        
+        .category-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .category-description {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* About page specific */
+        .about-header {
+            background: linear-gradient(to right, #36b9cc, #2c9faf);
+            color: white;
+            padding: 60px 0;
+            margin-bottom: 40px;
+            border-radius: 0 0 10px 10px;
+        }
+        
+        .team-member {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .team-img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 5px solid var(--light-bg);
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background-color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 1.8rem;
+        }
+        
+        /* Contact page specific */
+        .contact-header {
+            background: linear-gradient(to right, #1cc88a, #17a673);
+            color: white;
+            padding: 60px 0;
+            margin-bottom: 40px;
+            border-radius: 0 0 10px 10px;
+        }
+        
+        .contact-info {
+            text-align: center;
+            padding: 30px;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            height: 100%;
+        }
+        
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--light-bg);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+        
+        .form-control:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 0.2rem rgba(78, 115, 223, 0.25);
+        }
+        
+        .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+            padding: 10px 30px;
+            font-weight: 600;
+        }
+        
+        .btn-primary:hover {
+            background-color: #2e59d9;
+            border-color: #2e59d9;
+        }
+        
+        /* Footer */
+        .footer {
+            background-color: var(--dark-text);
+            color: #f8f9fa;
+            padding: 40px 0 20px;
+            margin-top: 60px;
+        }
+        
+        .footer a {
+            color: #dee2e6;
+            text-decoration: none;
+        }
+        
+        .footer a:hover {
+            color: white;
+        }
+        
+        .social-icons a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            margin-right: 10px;
+            transition: all 0.3s;
+        }
+        
+        .social-icons a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            margin-top: 30px;
+            font-size: 0.9rem;
+            color: #adb5bd;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .hero-title, .category-title {
+                font-size: 2.2rem;
+            }
+            
+            .post-title {
+                font-size: 1.5rem;
+            }
+            
+            .hero-section {
+                padding: 70px 0;
+            }
+            
+            .category-header, .about-header, .contact-header {
+                padding: 40px 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <i class="fas fa-blog me-2"></i>SimpleBlog
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active-page" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="category.html">Categories</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Page Content - This will be replaced by each page's content -->
+    <div id="page-content">
+        <!-- Home Page Content -->
+        <div id="home-page">
+            <!-- Hero Section -->
+            <header class="hero-section">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto text-center">
+                            <h1 class="hero-title">Welcome to SimpleBlog</h1>
+                            <p class="lead mb-4">A clean, responsive blogging template built with Bootstrap 5. Share your thoughts, ideas, and stories with the world.</p>
+                            <a href="#blog-posts" class="btn btn-primary btn-lg">Start Reading</a>
+                            <a href="contact.html" class="btn btn-outline-light btn-lg ms-2">Subscribe</a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Main Content -->
+            <div class="container" id="blog-posts">
+                <div class="row">
+                    <!-- Blog Posts Column -->
+                    <div class="col-lg-8">
+                        <!-- Blog Post 1 -->
+                        <article class="blog-post">
+                            <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80" 
+                                 class="post-image" alt="Web Development">
+                            <div class="p-4">
+                                <span class="post-category">Technology</span>
+                                <h2 class="post-title"><a href="#">Getting Started with Web Development</a></h2>
+                                <div class="post-meta">
+                                    <i class="far fa-calendar me-1"></i> June 15, 2023 | 
+                                    <i class="far fa-user ms-2 me-1"></i> John Doe | 
+                                    <i class="far fa-comment ms-2 me-1"></i> 12 Comments
+                                </div>
+                                <p class="post-excerpt">Learn the basics of HTML, CSS, and JavaScript to start your journey in web development. This guide covers the essential tools and resources you need to build your first website.</p>
+                                <a href="#" class="read-more">Continue Reading <i class="fas fa-arrow-right ms-1"></i></a>
+                            </div>
+                        </article>
+
+                        <!-- Blog Post 2 -->
+                        <article class="blog-post">
+                            <img src="https://images.unsplash.com/photo-1611224923853-80b023f02d71?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80" 
+                                 class="post-image" alt="Travel">
+                            <div class="p-4">
+                                <span class="post-category" style="background-color: #1cc88a;">Travel</span>
+                                <h2 class="post-title"><a href="#">Top 10 Destinations for 2023</a></h2>
+                                <div class="post-meta">
+                                    <i class="far fa-calendar me-1"></i> June 10, 2023 | 
+                                    <i class="far fa-user ms-2 me-1"></i> Jane Smith | 
+                                    <i class="far fa-comment ms-2 me-1"></i> 8 Comments
+                                </div>
+                                <p class="post-excerpt">Discover the most breathtaking destinations to visit this year. From tropical beaches to historic cities, these locations offer unforgettable experiences for every type of traveler.</p>
+                                <a href="#" class="read-more">Continue Reading <i class="fas fa-arrow-right ms-1"></i></a>
+                            </div>
+                        </article>
+
+                        <!-- Blog Post 3 -->
+                        <article class="blog-post">
+                            <img src="https://images.unsplash.com/photo-1499750310107-5fef28a66643?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                                 class="post-image" alt="Healthy Food">
+                            <div class="p-4">
+                                <span class="post-category" style="background-color: #f6c23e;">Health</span>
+                                <h2 class="post-title"><a href="#">Healthy Eating Habits for Busy People</a></h2>
+                                <div class="post-meta">
+                                    <i class="far fa-calendar me-1"></i> June 5, 2023 | 
+                                    <i class="far fa-user ms-2 me-1"></i> Robert Johnson | 
+                                    <i class="far fa-comment ms-2 me-1"></i> 15 Comments
+                                </div>
+                                <p class="post-excerpt">Maintaining a healthy diet doesn't have to be time-consuming. Learn simple strategies and quick recipes that fit into your busy schedule while providing optimal nutrition.</p>
+                                <a href="#" class="read-more">Continue Reading <i class="fas fa-arrow-right ms-1"></i></a>
+                            </div>
+                        </article>
+
+                        <!-- Blog Post 4 -->
+                        <article class="blog-post">
+                            <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                                 class="post-image" alt="Coding">
+                            <div class="p-4">
+                                <span class="post-category">Technology</span>
+                                <h2 class="post-title"><a href="#">Mastering JavaScript in 30 Days</a></h2>
+                                <div class="post-meta">
+                                    <i class="far fa-calendar me-1"></i> May 28, 2023 | 
+                                    <i class="far fa-user ms-2 me-1"></i> Alex Turner | 
+                                    <i class="far fa-comment ms-2 me-1"></i> 24 Comments
+                                </div>
+                                <p class="post-excerpt">A comprehensive guide to mastering JavaScript fundamentals, advanced concepts, and modern frameworks in just 30 days. Perfect for beginners and intermediate developers.</p>
+                                <a href="#" class="read-more">Continue Reading <i class="fas fa-arrow-right ms-1"></i></a>
+                            </div>
+                        </article>
+
+                        <!-- Pagination -->
+                        <nav aria-label="Blog pagination">
+                            <ul class="pagination justify-content-center mt-5">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">Previous</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                    <!-- Sidebar Column -->
+                    <div class="col-lg-4">
+                        <!-- About Card -->
+                        <div class="card sidebar-card">
+                            <div class="card-body text-center">
+                                <h3 class="sidebar-title">About Me</h3>
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" 
+                                     class="about-img" alt="Author">
+                                <p>Hello! I'm Alex, a passionate blogger who loves sharing knowledge about technology, travel, health, and lifestyle. Welcome to my blog!</p>
+                                <a href="about.html" class="btn btn-outline-primary btn-sm">Read More</a>
+                            </div>
+                        </div>
+
+                        <!-- Categories Card -->
+                        <div class="card sidebar-card">
+                            <div class="card-body">
+                                <h3 class="sidebar-title">Categories</h3>
+                                <ul class="sidebar-list">
+                                    <li><a href="category.html?cat=technology"><i class="fas fa-angle-right me-2"></i> Technology <span class="badge bg-primary float-end">12</span></a></li>
+                                    <li><a href="category.html?cat=travel"><i class="fas fa-angle-right me-2"></i> Travel <span class="badge bg-success float-end">8</span></a></li>
+                                    <li><a href="category.html?cat=health"><i class="fas fa-angle-right me-2"></i> Health <span class="badge bg-warning float-end">15</span></a></li>
+                                    <li><a href="category.html?cat=lifestyle"><i class="fas fa-angle-right me-2"></i> Lifestyle <span class="badge bg-info float-end">9</span></a></li>
+                                    <li><a href="category.html?cat=food"><i class="fas fa-angle-right me-2"></i> Food <span class="badge bg-danger float-end">7</span></a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Popular Posts Card -->
+                        <div class="card sidebar-card">
+                            <div class="card-body">
+                                <h3 class="sidebar-title">Popular Posts</h3>
+                                <div class="d-flex mb-3">
+                                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                                         class="rounded me-3" width="80" height="80" style="object-fit: cover;" alt="Coding">
+                                    <div>
+                                        <h6 class="mb-1"><a href="#" class="text-dark">Mastering JavaScript in 30 Days</a></h6>
+                                        <small class="text-muted">May 28, 2023</small>
+                                    </div>
+                                </div>
+                                <div class="d-flex mb-3">
+                                    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                                         class="rounded me-3" width="80" height="80" style="object-fit: cover;" alt="Workout">
+                                    <div>
+                                        <h6 class="mb-1"><a href="#" class="text-dark">10 Minute Morning Workout Routine</a></h6>
+                                        <small class="text-muted">May 20, 2023</small>
+                                    </div>
+                                </div>
+                                <div class="d-flex">
+                                    <img src="https://images.unsplash.com/photo-1533090161767-e6ffed986c88?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1169&q=80" 
+                                         class="rounded me-3" width="80" height="80" style="object-fit: cover;" alt="Marketing">
+                                    <div>
+                                        <h6 class="mb-1"><a href="#" class="text-dark">Digital Marketing Trends for 2023</a></h6>
+                                        <small class="text-muted">May 15, 2023</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tags Card -->
+                        <div class="card sidebar-card">
+                            <div class="card-body">
+                                <h3 class="sidebar-title">Tags</h3>
+                                <div class="mb-2">
+                                    <a href="#" class="tag">Web Design</a>
+                                    <a href="#" class="tag">Development</a>
+                                    <a href="#" class="tag">Bootstrap</a>
+                                    <a href="#" class="tag">Travel</a>
+                                    <a href="#" class="tag">Health</a>
+                                    <a href="#" class="tag">Lifestyle</a>
+                                    <a href="#" class="tag">Food</a>
+                                    <a href="#" class="tag">Technology</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Category Page Content (Hidden by default) -->
+        <div id="category-page" style="display: none;">
+            <header class="category-header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto text-center">
+                            <h1 class="category-title">Technology</h1>
+                            <p class="category-description">Explore the latest trends, tutorials, and insights in the world of technology. From web development to AI, we cover it all.</p>
+                            <div class="mt-4">
+                                <span class="badge bg-light text-dark fs-6 me-2 p-2">12 Posts</span>
+                                <span class="badge bg-light text-dark fs-6 p-2">Updated weekly</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="container">
+                <div class="row">
+                    <!-- Category Posts -->
+                    <div class="col-lg-9">
+                        <div class="row">
+                            <!-- Category Post 1 -->
+                            <div class="col-md-6 mb-4">
+                                <article class="blog-post h-100">
+                                    <img src="https://images.unsplash.com/photo-1486312338219-ce68d2c6f44d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2072&q=80" 
+                                         class="post-image" alt="Web Development">
+                                    <div class="p-4">
+                                        <span class="post-category">Technology</span>
+                                        <h3 class="post-title" style="font-size: 1.5rem;"><a href="#">Getting Started with Web Development</a></h3>
+                                        <div class="post-meta">
+                                            <i class="far fa-calendar me-1"></i> June 15, 2023
+                                        </div>
+                                        <p class="post-excerpt">Learn the basics of HTML, CSS, and JavaScript to start your journey in web development.</p>
+                                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+                                    </div>
+                                </article>
+                            </div>
+
+                            <!-- Category Post 2 -->
+                            <div class="col-md-6 mb-4">
+                                <article class="blog-post h-100">
+                                    <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80" 
+                                         class="post-image" alt="Coding">
+                                    <div class="p-4">
+                                        <span class="post-category">Technology</span>
+                                        <h3 class="post-title" style="font-size: 1.5rem;"><a href="#">Mastering JavaScript in 30 Days</a></h3>
+                                        <div class="post-meta">
+                                            <i class="far fa-calendar me-1"></i> May 28, 2023
+                                        </div>
+                                        <p class="post-excerpt">A comprehensive guide to mastering JavaScript fundamentals, advanced concepts, and modern frameworks.</p>
+                                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+                                    </div>
+                                </article>
+                            </div>
+
+                            <!-- Category Post 3 -->
+                            <div class="col-md-6 mb-4">
+                                <article class="blog-post h-100">
+                                    <img src="https://images.unsplash.com/photo-1535223289827-42f1e9919769?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80" 
+                                         class="post-image" alt="AI">
+                                    <div class="p-4">
+                                        <span class="post-category">Technology</span>
+                                        <h3 class="post-title" style="font-size: 1.5rem;"><a href="#">The Future of Artificial Intelligence</a></h3>
+                                        <div class="post-meta">
+                                            <i class="far fa-calendar me-1"></i> May 15, 2023
+                                        </div>
+                                        <p class="post-excerpt">Exploring how AI is transforming industries and what we can expect in the coming years.</p>
+                                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+                                    </div>
+                                </article>
+                            </div>
+
+                            <!-- Category Post 4 -->
+                            <div class="col-md-6 mb-4">
+                                <article class="blog-post h-100">
+                                    <img src="https://images.unsplash.com/photo-1551650975-87deedd944c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1974&q=80" 
+                                         class="post-image" alt="Mobile Development">
+                                    <div class="p-4">
+                                        <span class="post-category">Technology</span>
+                                        <h3 class="post-title" style="font-size: 1.5rem;"><a href="#">Building Your First Mobile App</a></h3>
+                                        <div class="post-meta">
+                                            <i class="far fa-calendar me-1"></i> April 30, 2023
+                                        </div>
+                                        <p class="post-excerpt">A step-by-step guide to creating your first mobile application for iOS and Android.</p>
+                                        <a href="#" class="read-more">Read More <i class="fas fa-arrow-right ms-1"></i></a>
+                                    </div>
+                                </article>
+                            </div>
+                        </div>
+
+                        <!-- Other Categories -->
+                        <div class="mt-5">
+                            <h3 class="sidebar-title mb-4">Browse Other Categories</h3>
+                            <div class="row">
+                                <div class="col-md-4 mb-3">
+                                    <a href="category.html?cat=travel" class="text-decoration-none">
+                                        <div class="card text-center h-100 hover-shadow">
+                                            <div class="card-body py-4">
+                                                <div class="display-6 text-success mb-3"><i class="fas fa-plane"></i></div>
+                                                <h5>Travel</h5>
+                                                <p class="text-muted small">8 posts</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <a href="category.html?cat=health" class="text-decoration-none">
+                                        <div class="card text-center h-100 hover-shadow">
+                                            <div class="card-body py-4">
+                                                <div class="display-6 text-warning mb-3"><i class="fas fa-heartbeat"></i></div>
+                                                <h5>Health</h5>
+                                                <p class="text-muted small">15 posts</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div class="col-md-4 mb-3">
+                                    <a href="category.html?cat=lifestyle" class="text-decoration-none">
+                                        <div class="card text-center h-100 hover-shadow">
+                                            <div class="card-body py-4">
+                                                <div class="display-6 text-info mb-3"><i class="fas fa-home"></i></div>
+                                                <h5>Lifestyle</h5>
+                                                <p class="text-muted small">9 posts</p>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Category Sidebar -->
+                    <div class="col-lg-3">
+                        <div class="card sidebar-card">
+                            <div class="card-body">
+                                <h3 class="sidebar-title">About This Category</h3>
+                                <p>The Technology category covers everything from web development and programming to emerging tech trends and gadget reviews.</p>
+                                <div class="mt-4">
+                                    <h5 class="mb-3">Category Stats</h5>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Total Posts:</span>
+                                        <strong>12</strong>
+                                    </div>
+                                    <div class="d-flex justify-content-between mb-2">
+                                        <span>Last Updated:</span>
+                                        <strong>June 15, 2023</strong>
+                                    </div>
+                                    <div class="d-flex justify-content-between">
+                                        <span>Monthly Views:</span>
+                                        <strong>3.5K</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card sidebar-card">
+                            <div class="card-body">
+                                <h3 class="sidebar-title">Popular Tags</h3>
+                                <div class="mb-2">
+                                    <a href="#" class="tag">Web Development</a>
+                                    <a href="#" class="tag">JavaScript</a>
+                                    <a href="#" class="tag">Python</a>
+                                    <a href="#" class="tag">AI</a>
+                                    <a href="#" class="tag">Mobile Apps</a>
+                                    <a href="#" class="tag">Cybersecurity</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- About Page Content (Hidden by default) -->
+        <div id="about-page" style="display: none;">
+            <header class="about-header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto text-center">
+                            <h1 class="category-title">About SimpleBlog</h1>
+                            <p class="category-description">Learn more about our mission, our team, and what drives us to create quality content for our readers.</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="container">
+                <!-- Our Story -->
+                <div class="row mb-5">
+                    <div class="col-lg-10 mx-auto">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body p-5">
+                                <h2 class="text-center mb-4">Our Story</h2>
+                                <p class="lead text-center mb-4">SimpleBlog was founded in 2020 with a simple mission: to create a platform where people can share knowledge, experiences, and ideas in a clean, accessible format.</p>
+                                
+                                <p>What started as a personal blog has grown into a community of writers and readers passionate about technology, travel, health, lifestyle, and more. We believe that everyone has a story worth sharing and knowledge worth spreading.</p>
+                                
+                                <p>Our platform is built on the principles of simplicity, accessibility, and quality. We strive to provide valuable content that educates, inspires, and entertains our readers while maintaining a user-friendly experience.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Our Values -->
+                <div class="row mb-5">
+                    <div class="col-lg-12">
+                        <h2 class="text-center mb-5">Our Values</h2>
+                    </div>
+                    
+                    <div class="col-md-4 mb-4">
+                        <div class="text-center p-4 h-100">
+                            <div class="feature-icon">
+                                <i class="fas fa-pen-fancy"></i>
+                            </div>
+                            <h4>Quality Content</h4>
+                            <p>We're committed to creating well-researched, accurate, and engaging content that provides real value to our readers.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 mb-4">
+                        <div class="text-center p-4 h-100">
+                            <div class="feature-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h4>Community Focus</h4>
+                            <p>We believe in building a positive community where readers and writers can connect, share ideas, and learn from each other.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 mb-4">
+                        <div class="text-center p-4 h-100">
+                            <div class="feature-icon">
+                                <i class="fas fa-lightbulb"></i>
+                            </div>
+                            <h4>Innovation</h4>
+                            <p>We continuously explore new formats, topics, and technologies to improve the blogging experience for everyone.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Meet Our Team -->
+                <div class="row mb-5">
+                    <div class="col-lg-12">
+                        <h2 class="text-center mb-5">Meet Our Team</h2>
+                    </div>
+                    
+                    <div class="col-md-4 mb-4">
+                        <div class="team-member">
+                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" 
+                                 class="team-img" alt="Alex Johnson">
+                            <h4>Alex Johnson</h4>
+                            <p class="text-muted">Founder & Editor</p>
+                            <p>Alex started SimpleBlog to share his passion for technology and writing. With 10+ years in web development, he oversees content strategy and platform development.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 mb-4">
+                        <div class="team-member">
+                            <img src="https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" 
+                                 class="team-img" alt="Sarah Miller">
+                            <h4>Sarah Miller</h4>
+                            <p class="text-muted">Content Manager</p>
+                            <p>Sarah brings 8 years of editorial experience to the team. She ensures every piece of content meets our quality standards and resonates with our audience.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 mb-4">
+                        <div class="team-member">
+                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" 
+                                 class="team-img" alt="Michael Chen">
+                            <h4>Michael Chen</h4>
+                            <p class="text-muted">Tech Lead</p>
+                            <p>Michael handles all technical aspects of SimpleBlog. With expertise in frontend and backend development, he ensures our platform runs smoothly and securely.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Call to Action -->
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="card bg-primary text-white text-center border-0">
+                            <div class="card-body p-5">
+                                <h3 class="card-title mb-3">Join Our Community</h3>
+                                <p class="card-text mb-4">Whether you want to read, write, or both, we welcome you to be part of our growing community.</p>
+                                <a href="contact.html" class="btn btn-light btn-lg me-3">Get In Touch</a>
+                                <a href="index.html" class="btn btn-outline-light btn-lg">Start Reading</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Page Content (Hidden by default) -->
+        <div id="contact-page" style="display: none;">
+            <header class="contact-header">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-8 mx-auto text-center">
+                            <h1 class="category-title">Contact Us</h1>
+                            <p class="category-description">Have questions, suggestions, or just want to say hello? We'd love to hear from you. Get in touch with our team.</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="container">
+                <div class="row mb-5">
+                    <div class="col-lg-10 mx-auto">
+                        <div class="row">
+                            <!-- Contact Information -->
+                            <div class="col-md-4 mb-4">
+                                <div class="contact-info">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                    </div>
+                                    <h4>Our Location</h4>
+                                    <p>123 Blog Street<br>San Francisco, CA 94107<br>United States</p>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4 mb-4">
+                                <div class="contact-info">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-phone"></i>
+                                    </div>
+                                    <h4>Phone Number</h4>
+                                    <p>+1 (555) 123-4567<br>Mon-Fri, 9am-6pm PST</p>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-4 mb-4">
+                                <div class="contact-info">
+                                    <div class="contact-icon">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                    <h4>Email Address</h4>
+                                    <p>hello@simpleblog.com<br>support@simpleblog.com</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-10 mx-auto">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body p-5">
+                                <h2 class="text-center mb-4">Send Us a Message</h2>
+                                <p class="text-center mb-5">Fill out the form below and we'll get back to you as soon as possible.</p>
+                                
+                                <form id="contact-form">
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="name" class="form-label">Your Name *</label>
+                                            <input type="text" class="form-control" id="name" required>
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="email" class="form-label">Your Email *</label>
+                                            <input type="email" class="form-control" id="email" required>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="subject" class="form-label">Subject *</label>
+                                        <input type="text" class="form-control" id="subject" required>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="message" class="form-label">Your Message *</label>
+                                        <textarea class="form-control" id="message" rows="5" required></textarea>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <label for="category" class="form-label">Category</label>
+                                        <select class="form-select" id="category">
+                                            <option selected>General Inquiry</option>
+                                            <option value="1">Technical Support</option>
+                                            <option value="2">Content Submission</option>
+                                            <option value="3">Advertising</option>
+                                            <option value="4">Partnership</option>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="mb-3 form-check">
+                                        <input type="checkbox" class="form-check-input" id="newsletter">
+                                        <label class="form-check-label" for="newsletter">Subscribe to our newsletter for updates</label>
+                                    </div>
+                                    
+                                    <div class="text-center mt-4">
+                                        <button type="submit" class="btn btn-primary btn-lg px-5">Send Message</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FAQ Section -->
+                <div class="row mt-5">
+                    <div class="col-lg-10 mx-auto">
+                        <h2 class="text-center mb-5">Frequently Asked Questions</h2>
+                        
+                        <div class="accordion" id="faqAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne">
+                                        How can I contribute to SimpleBlog?
+                                    </button>
+                                </h2>
+                                <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        We welcome guest contributions! Please send us a message through the contact form with your topic idea and writing samples. Our editorial team will review your submission and get back to you within 5-7 business days.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingTwo">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">
+                                        How often is new content published?
+                                    </button>
+                                </h2>
+                                <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        We publish new articles every Monday, Wednesday, and Friday. Additionally, we send out a weekly newsletter every Sunday with the latest posts and exclusive content for subscribers.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingThree">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree">
+                                        Can I advertise on SimpleBlog?
+                                    </button>
+                                </h2>
+                                <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+                                    <div class="accordion-body">
+                                        Yes, we offer advertising opportunities for relevant brands and services. Please contact us with details about your company and advertising goals, and we'll provide our media kit and available options.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h4 class="mb-3">SimpleBlog</h4>
+                    <p>A clean, responsive blogging template built with Bootstrap 5. Perfect for sharing your thoughts and stories with the world.</p>
+                    <div class="social-icons mt-3">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h4 class="mb-3">Quick Links</h4>
+                    <div class="row">
+                        <div class="col-6">
+                            <ul class="list-unstyled">
+                                <li><a href="index.html">Home</a></li>
+                                <li><a href="about.html">About</a></li>
+                                <li><a href="category.html">Categories</a></li>
+                                <li><a href="#">Blog</a></li>
+                            </ul>
+                        </div>
+                        <div class="col-6">
+                            <ul class="list-unstyled">
+                                <li><a href="#">Privacy Policy</a></li>
+                                <li><a href="#">Terms of Service</a></li>
+                                <li><a href="contact.html">Contact</a></li>
+                                <li><a href="#">Subscribe</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <h4 class="mb-3">Subscribe</h4>
+                    <p>Stay updated with our latest posts. No spam, ever.</p>
+                    <form>
+                        <div class="input-group mb-3">
+                            <input type="email" class="form-control" placeholder="Your email address" aria-label="Email">
+                            <button class="btn btn-primary" type="button">Subscribe</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12 text-center copyright">
+                    <p>&copy; 2023 SimpleBlog. All rights reserved. | Designed with Bootstrap 5</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Page Navigation Script -->
+    <script>
+        // Function to show a specific page and hide others
+        function showPage(pageId) {
+            // Hide all pages
+            document.getElementById('home-page').style.display = 'none';
+            document.getElementById('category-page').style.display = 'none';
+            document.getElementById('about-page').style.display = 'none';
+            document.getElementById('contact-page').style.display = 'none';
+            
+            // Show the requested page
+            document.getElementById(pageId).style.display = 'block';
+            
+            // Update active nav link
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active-page');
+            });
+            
+            // Update page title
+            const pageTitles = {
+                'home-page': 'SimpleBlog - Home',
+                'category-page': 'SimpleBlog - Categories',
+                'about-page': 'SimpleBlog - About',
+                'contact-page': 'SimpleBlog - Contact'
+            };
+            document.title = pageTitles[pageId] || 'SimpleBlog';
+        }
+        
+        // Function to handle navigation
+        function navigateTo(page) {
+            // Update URL without reloading (for demo purposes)
+            window.history.pushState({}, '', page + '.html');
+            
+            // Show the appropriate page
+            if (page === 'index' || page === 'home') {
+                showPage('home-page');
+                document.querySelector('a[href="index.html"]').classList.add('active-page');
+            } else if (page === 'category') {
+                showPage('category-page');
+                document.querySelector('a[href="category.html"]').classList.add('active-page');
+            } else if (page === 'about') {
+                showPage('about-page');
+                document.querySelector('a[href="about.html"]').classList.add('active-page');
+            } else if (page === 'contact') {
+                showPage('contact-page');
+                document.querySelector('a[href="contact.html"]').classList.add('active-page');
+            }
+        }
+        
+        // Handle initial page load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Check URL to determine which page to show
+            const path = window.location.pathname;
+            const page = path.substring(path.lastIndexOf('/') + 1, path.lastIndexOf('.'));
+            
+            if (page === 'category') {
+                navigateTo('category');
+            } else if (page === 'about') {
+                navigateTo('about');
+            } else if (page === 'contact') {
+                navigateTo('contact');
+            } else {
+                navigateTo('home');
+            }
+            
+            // Handle form submission
+            document.getElementById('contact-form')?.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Thank you for your message! We will get back to you soon.');
+                this.reset();
+            });
+            
+            // Handle back/forward browser buttons
+            window.addEventListener('popstate', function() {
+                const path = window.location.pathname;
+                const page = path.substring(path.lastIndexOf('/') + 1, path.lastIndexOf('.'));
+                
+                if (page === 'category') {
+                    navigateTo('category');
+                } else if (page === 'about') {
+                    navigateTo('about');
+                } else if (page === 'contact') {
+                    navigateTo('contact');
+                } else {
+                    navigateTo('home');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
